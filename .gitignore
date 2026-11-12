@@ -1,0 +1,15 @@
+node_modules/
+.env
+*.log
+coverage/
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+
+# Phase 6 local evidence and secrets
+tests/phase6-results.json
+*.sql.gz
+*.sql.zip
+*.sql.bak
+backups/
+!docs/screenshots/.gitkeep

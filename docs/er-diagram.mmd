@@ -1,0 +1,113 @@
+
+erDiagram
+    ROLES ||--o{ USERS : has
+    DEPARTMENTS ||--o{ USERS : employs
+    BUILDINGS ||--o{ ROOMS : contains
+    DEPARTMENTS |o--o{ ROOMS : manages
+    DEPARTMENTS ||--o{ ASSETS : owns
+    ROOMS ||--o{ ASSETS : stores
+    ASSET_CATEGORIES ||--o{ ASSETS : classifies
+    ASSET_STATUSES ||--o{ ASSETS : defines
+    ASSETS |o--o{ ASSETS : parent_of
+    ASSETS ||--o{ ASSET_ASSIGNMENTS : has
+    USERS |o--o{ ASSET_ASSIGNMENTS : receives
+    ASSETS ||--o{ SERVICE_REQUESTS : has
+    USERS ||--o{ SERVICE_REQUESTS : raises
+    USERS |o--o{ SERVICE_REQUESTS : handles
+    REQUEST_STATUSES ||--o{ SERVICE_REQUESTS : defines
+    PRIORITIES ||--o{ SERVICE_REQUESTS : sets
+    SERVICE_REQUESTS ||--o{ MAINTENANCE_RECORDS : records
+    ASSETS ||--o{ MAINTENANCE_RECORDS : serviced
+    USERS |o--o{ MAINTENANCE_RECORDS : performs
+    MAINTENANCE_RECORDS ||--o{ MAINTENANCE_PARTS : uses
+    USERS |o--o{ AUDIT_LOG : generates
+
+    ROLES {
+        int role_id PK
+        string role_name UK
+    }
+    DEPARTMENTS {
+        int department_id PK
+        string department_code UK
+        string department_name
+    }
+    USERS {
+        int user_id PK
+        int role_id FK
+        int department_id FK
+        string email UK
+        string password_hash
+    }
+    BUILDINGS {
+        int building_id PK
+        string building_code UK
+        string building_name
+    }
+    ROOMS {
+        int room_id PK
+        int building_id FK
+        int department_id FK
+        string room_number
+    }
+    ASSET_CATEGORIES {
+        int category_id PK
+        string category_name
+    }
+    ASSET_STATUSES {
+        int asset_status_id PK
+        string status_name
+    }
+    ASSETS {
+        int asset_id PK
+        int category_id FK
+        int department_id FK
+        int room_id FK
+        int asset_status_id FK
+        int parent_asset_id FK
+        string asset_tag UK
+        decimal purchase_cost
+    }
+    ASSET_ASSIGNMENTS {
+        int assignment_id PK
+        int asset_id FK
+        int assigned_user_id FK
+        date assigned_from
+        date assigned_to
+    }
+    REQUEST_STATUSES {
+        int request_status_id PK
+        string status_name
+    }
+    PRIORITIES {
+        int priority_id PK
+        string priority_name
+        int target_hours
+    }
+    SERVICE_REQUESTS {
+        int request_id PK
+        int asset_id FK
+        int raised_by_user_id FK
+        int assigned_technician_id FK
+        int request_status_id FK
+        int priority_id FK
+        string request_number UK
+    }
+    MAINTENANCE_RECORDS {
+        int maintenance_id PK
+        int request_id FK
+        int asset_id FK
+        int technician_id FK
+        decimal labour_cost
+    }
+    MAINTENANCE_PARTS {
+        int part_id PK
+        int maintenance_id FK
+        int quantity
+        decimal unit_cost
+    }
+    AUDIT_LOG {
+        int audit_id PK
+        int changed_by_user_id FK
+        string table_name
+        string action
+    }

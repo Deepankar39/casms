@@ -1,0 +1,41 @@
+
+flowchart TD
+    A["User: Admin / Staff / Technician"]
+
+    subgraph FRONTEND["FRONTEND - Browser"]
+        B["HTML - Page Structure"]
+        C["CSS - Styling"]
+        D["JavaScript - User Interaction"]
+        E["Chart.js - Dashboard Charts"]
+    end
+
+    subgraph BACKEND["BACKEND - Node.js + Express.js"]
+        F["API Routes"]
+        G["Authentication / Role / Validation"]
+        H["Controllers"]
+        I["Services - Business Logic"]
+        J["Database Layer - mysql2"]
+    end
+
+    subgraph DATABASE["DATABASE - MySQL 8.x"]
+        K[("CASMS Database Tables")]
+        L["Views / Functions / Procedures / Triggers"]
+        M[("Session Storage")]
+    end
+
+    A --> B
+    B --> C
+    B --> D
+    D --> E
+    D -->|"HTTP fetch API"| F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J -->|"Parameterized SQL"| K
+    K --- L
+    G -.-> M
+    K -->|"Query Results"| J
+    J --> I
+    I --> H
+    H -->|"JSON Response"| D

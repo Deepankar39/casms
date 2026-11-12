@@ -1,0 +1,49 @@
+
+flowchart TD
+    A([Open CASMS Application]) --> B[Login Page]
+    B --> C{Valid Login?}
+    C -- No --> D[Show Error Message]
+    D --> B
+    C -- Yes --> E{Password Change Required?}
+    E -- Yes --> F[Change Password]
+    F --> G[Role-Based Dashboard]
+    E -- No --> G
+
+    G --> H{User Role?}
+
+    H -- Admin --> I[Manage Users and Master Data]
+    I --> J[Register and Manage Assets]
+    J --> K[(Save Asset Information)]
+    K --> L[Asset Register and History]
+
+    H -- Admin --> M[Review Open Service Requests]
+    H -- Staff / Faculty --> N[View Permitted Assets]
+    N --> O[Raise Service Request]
+    O --> P{Asset Eligible?}
+    P -- No --> Q[Show Validation Error]
+    Q --> N
+    P -- Yes --> R[Request Created - Open]
+
+    R --> M
+    M --> S[Assign Active Technician]
+    S --> T[Request Status - Assigned]
+
+    H -- Technician --> U[View Assigned Requests]
+    T --> U
+    U --> V[Start Work - In Progress]
+    V --> W{Repair On Hold?}
+    W -- Yes --> X[Status - On Hold]
+    X --> V
+    W -- No --> Y[Enter Diagnosis, Parts and Costs]
+
+    Y --> Z[Call Closure Stored Procedure]
+    Z --> AA{Transaction Successful?}
+    AA -- No --> AB[Rollback All Changes]
+    AB --> Y
+    AA -- Yes --> AC[Close Request and Save Maintenance]
+    AC --> AD[Update Asset Status]
+    AD --> AE[Save History, Audit and Notification]
+    AE --> AF[Dashboard and Reports]
+
+    L --> AF
+    AF --> AG([End])
